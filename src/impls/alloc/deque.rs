@@ -1,5 +1,5 @@
 use crate::{
-	Back, BackMut, Capacity, Clear, Collection, CollectionMut, CollectionRef, Front, FrontMut, Len,
+	Capacity, Clear, Collection, CollectionMut, CollectionRef, Get, GetMut, Iter, IterMut, Len,
 	PopBack, PushBack, Reserve, SimpleCollectionMut, SimpleCollectionRef, WithCapacity,
 };
 use alloc::collections::VecDeque;
@@ -61,31 +61,17 @@ impl<T> Reserve for VecDeque<T> {
 	}
 }
 
-impl<T> Front for VecDeque<T> {
+impl<T> Get<usize> for VecDeque<T> {
 	#[inline(always)]
-	fn front(&self) -> Option<&T> {
-		self.front()
+	fn get(&self, key: usize) -> Option<&T> {
+		self.get(key)
 	}
 }
 
-impl<T> FrontMut for VecDeque<T> {
+impl<T> GetMut<usize> for VecDeque<T> {
 	#[inline(always)]
-	fn front_mut(&mut self) -> Option<&mut T> {
-		self.front_mut()
-	}
-}
-
-impl<T> Back for VecDeque<T> {
-	#[inline(always)]
-	fn back(&self) -> Option<&T> {
-		self.back()
-	}
-}
-
-impl<T> BackMut for VecDeque<T> {
-	#[inline(always)]
-	fn back_mut(&mut self) -> Option<&mut T> {
-		self.back_mut()
+	fn get_mut(&mut self, key: usize) -> Option<&mut T> {
+		self.get_mut(key)
 	}
 }
 
@@ -109,5 +95,29 @@ impl<T> Clear for VecDeque<T> {
 	#[inline(always)]
 	fn clear(&mut self) {
 		self.clear()
+	}
+}
+
+impl<T> Iter for VecDeque<T> {
+	type Iter<'a>
+		= alloc::collections::vec_deque::Iter<'a, T>
+	where
+		Self: 'a;
+
+	#[inline(always)]
+	fn iter(&self) -> Self::Iter<'_> {
+		self.iter()
+	}
+}
+
+impl<T> IterMut for VecDeque<T> {
+	type IterMut<'a>
+		= alloc::collections::vec_deque::IterMut<'a, T>
+	where
+		Self: 'a;
+
+	#[inline(always)]
+	fn iter_mut(&mut self) -> Self::IterMut<'_> {
+		self.iter_mut()
 	}
 }
